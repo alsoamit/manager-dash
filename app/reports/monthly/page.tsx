@@ -2,9 +2,7 @@
 
 import * as React from "react";
 import {
-  Calendar,
   Download,
-  User,
   Target,
   TrendingUp,
   Phone,
@@ -38,11 +36,8 @@ import {
   PieChart,
   Pie,
   Cell,
-  LineChart,
-  Line,
 } from "recharts";
 import * as XLSX from "xlsx";
-import { format } from "date-fns";
 
 const COLORS = ["#0088FE", "#00C49F", "#FFBB28", "#FF8042", "#8884d8"];
 

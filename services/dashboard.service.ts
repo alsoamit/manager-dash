@@ -114,26 +114,33 @@ export interface IListSalesData {
 
 const endpoints = {
   adminInsights: "/api/analytics/insights",
-  salesSummary: "/api/analytics/sales-summary",
-  salesAnalytics: "/api/analytics/sales-analytics",
-  sales: "/api/analytics/sales",
+  // Manager-specific analytics endpoints use manager-analytics routes
+  managerSalesSummary: "/api/manager-analytics/sales-summary",
+  managerSalesAnalytics: "/api/manager-analytics/sales-analytics",
+  managerSales: "/api/manager-analytics/sales",
 };
 
-export const getAdminDashboardInsights = (config?: { params?: { forceRefresh?: string } }) =>
+export const getAdminDashboardInsights = (config?: {
+  params?: { forceRefresh?: string };
+}) =>
   axios.get<Response<IAdminDashboardInsights>>(endpoints.adminInsights, config);
 
-export const getSalesSummary = (config?: { params?: { forceRefresh?: string } }) =>
-  axios.get<Response<ISalesSummary>>(endpoints.salesSummary, config);
+export const getSalesSummary = (config?: {
+  params?: { forceRefresh?: string };
+}) =>
+  axios.get<Response<ISalesSummary>>(endpoints.managerSalesSummary, config);
 
-export const getSalesAnalytics = (config?: { params?: { forceRefresh?: string } }) =>
-  axios.get<Response<ISalesAnalytics>>(endpoints.salesAnalytics, config);
+export const getSalesAnalytics = (config?: {
+  params?: { forceRefresh?: string };
+}) =>
+  axios.get<Response<ISalesAnalytics>>(endpoints.managerSalesAnalytics, config);
 
 export const listSales = (params?: {
   filter?: "today" | "last7days" | "last30days" | "all";
   limit?: number;
   nextToken?: string | null;
 }) =>
-  axios.get<Response<IListSalesData>>(endpoints.sales, {
+  axios.get<Response<IListSalesData>>(endpoints.managerSales, {
     params: {
       ...(params?.filter ? { filter: params.filter } : {}),
       ...(params?.limit ? { limit: params.limit } : {}),
@@ -143,7 +150,7 @@ export const listSales = (params?: {
 
 export const invalidateDashboardCache = () =>
   axios.delete<Response<{ invalidated: number }>>(
-    "/api/analytics/cache"
+    "/api/manager-analytics/cache"
   );
 
 // User dashboard data (same structure as frontend)
@@ -247,6 +254,6 @@ export const getEmployeeOverview = (config?: {
   params?: { forceRefresh?: string };
 }) =>
   axios.get<Response<IEmployeeOverviewData>>(
-    "/api/dashboard/employee-overview",
+    "/api/manager-dashboard/employee-overview",
     config
   );

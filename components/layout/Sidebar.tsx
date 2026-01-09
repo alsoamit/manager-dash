@@ -4,23 +4,13 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import {
   LayoutDashboard,
-  Store,
-  Package,
-  Users,
-  BarChart2,
-  MapPin,
-  ShoppingCart,
+  FileText,
 } from "lucide-react";
 import BottomNav from "./BottomNav";
 
 const NAV_ITEMS = [
   { href: "/", label: "Overview", icon: LayoutDashboard },
-  { href: "/salons", label: "Salons", icon: Store },
-  { href: "/products", label: "Products", icon: Package },
-  { href: "/employees", label: "Employees", icon: Users },
-  { href: "/beats", label: "Beats", icon: MapPin },
-  { href: "/orders", label: "Orders", icon: ShoppingCart },
-  { href: "/analytics", label: "Analytics", icon: BarChart2 },
+  { href: "/reports", label: "Daily Reports", icon: FileText },
 ] as const;
 
 type NavItem = (typeof NAV_ITEMS)[number];

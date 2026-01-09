@@ -19,14 +19,10 @@ import {
   ChevronDown,
   Sun,
   Moon,
-  Activity,
-  Bell,
 } from "lucide-react";
 import useSession from "@/hooks/useSession";
 import { signOut } from "next-auth/react";
 import { useTheme } from "next-themes";
-import { listLoginRequests } from "@/services/loginRequest.service";
-import { Badge } from "@/components/ui/badge";
 
 function getInitials(nameOrEmail?: string | null) {
   if (!nameOrEmail) return "U";
@@ -39,64 +35,18 @@ export default function Navbar() {
   const { session } = useSession();
   const { theme, resolvedTheme, setTheme } = useTheme();
   const isDark = (theme ?? resolvedTheme) === "dark";
-  const [pendingCount, setPendingCount] = React.useState(0);
 
   const displayName = useMemo(() => {
     return session?.user?.name || session?.user?.email || "User";
   }, [session]);
 
-  // Fetch pending login requests count
-  React.useEffect(() => {
-    const fetchPendingCount = async () => {
-      try {
-        const resp = await listLoginRequests({ status: "pending", limit: 100 });
-        const pending =
-          resp.data.data.items?.filter((r) => r.status === "pending") || [];
-        setPendingCount(pending.length);
-      } catch (error) {
-        console.error("Failed to fetch pending requests:", error);
-      }
-    };
-
-    fetchPendingCount();
-    // Refresh every 30 seconds
-    const interval = setInterval(fetchPendingCount, 30000);
-    return () => clearInterval(interval);
-  }, []);
-
   return (
     <header className="sticky top-0 z-50 w-full border-b bg-background/80 backdrop-blur">
       <div className="flex items-center h-16 gap-3 px-4 mx-auto max-w-7xl">
         <Link href="/" className="font-semibold tracking-tight">
-          FFP Admin
+          FFP Manager
         </Link>
         <div className="flex-1" />
-        <Button
-          variant="ghost"
-          size="icon"
-          aria-label="Login Requests"
-          asChild
-          className="relative"
-        >
-          <Link href="/requests">
-            <Bell className="w-5 h-5" />
-            {pendingCount > 0 && (
-              <Badge
-                variant="destructive"
-                className="absolute -top-1 -right-1 h-5 w-5 flex items-center justify-center p-0 text-xs"
-              >
-                {pendingCount > 9 ? "9+" : pendingCount}
-              </Badge>
-            )}
-            <span className="sr-only">Login Requests</span>
-          </Link>
-        </Button>
-        <Button variant="ghost" size="icon" aria-label="Activities" asChild>
-          <Link href="/activities">
-            <Activity className="w-5 h-5" />
-            <span className="sr-only">Activities</span>
-          </Link>
-        </Button>
         <Button
           variant="ghost"
           size="icon"

@@ -2,9 +2,7 @@
 
 import * as React from "react";
 import {
-  Calendar,
   Download,
-  User,
   Target,
   TrendingUp,
   Phone,
@@ -27,18 +25,7 @@ import {
   type IDailyReport,
   type IUser,
 } from "@/services/managerReports.service";
-import {
-  BarChart,
-  Bar,
-  XAxis,
-  YAxis,
-  CartesianGrid,
-  Tooltip,
-  ResponsiveContainer,
-  PieChart,
-  Pie,
-  Cell,
-} from "recharts";
+import { Tooltip, ResponsiveContainer, PieChart, Pie, Cell } from "recharts";
 import * as XLSX from "xlsx";
 import { format } from "date-fns";
 
